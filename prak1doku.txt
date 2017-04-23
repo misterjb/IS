@@ -1,0 +1,65 @@
+﻿Personen
+	person(albert),
+	person(berta),
+	person(chris),
+	person(detlef),
+	person(emma),
+	person(felix)
+
+Positionen
+	vorsitzender(X) ← person(X),
+	stellvertreter(X) ← person(X),
+	sekretaer(X) ← person(X)
+
+X ueber Y
+	ist_ueber(X,Y) ← vorsitzender(X) ∧ sekretaer(Y)
+	ist_ueber(X,Y) ← vorsitzender(X) ∧ stellvertreter(Y)
+	ist_ueber(X,Y) ← stellvertreter(X) ∧ sekretaer(Y)
+
+Zusammensetzung der Leitung
+	leitung(X,Y,Z) ← vorsitzender(X) ∧ stellvertreter(Y) ∧ sekretaer(Z) ∧
+	(X ≠ Y) ∧ (Y ≠ Z) ∧ (Z ≠ X)
+
+X gehoert zur Leitung 
+	vorsitzender(X) ∨ stellvertreter(X) ∨  sekretaer(X) → zur_leitung_gehoeren(X) 
+
+Regeln
+a) Albert will nicht zur Leitung gehören, wenn Emma nicht Vorsitzende wird.
+¬vorsitzender(emma) → ¬zur_leitung_gehoeren(albert)
+¬¬vorsitzender(emma) ∨ ¬leitung(albert)
+vorsitzender(emma) ∨ ¬leitung(albert) (KNF)
+
+Negation:
+¬ (vorsitzender(emma) ∨ ¬leitung(albert))
+¬vorsitzender(emma) ∧ ¬¬leitung(albert)
+¬vorsitzender(emma) ∧ leitung(albert) (KNF)
+
+b) Berta will nicht zur Leitung gehören, wenn sie über Chris stehen soll.
+ist_ueber(berta,chris) → ¬zur_leitung_gehoeren(berta)
+¬ist_ueber(berta,chris) ∨ ¬zur_leitung_gehoeren(berta)
+Negation:
+¬ (¬ist_ueber (berta,chris) ∨ ¬ zur_leitung_gehoeren (berta))
+¬¬ ist_ueber (berta,chris) ∧ ¬¬ zur_leitung_gehoeren (berta)
+ist_ueber (berta,chris) ∧ zur_leitung_gehoeren (berta) (KNF)
+
+d) Chris will nicht mitarbeiten, wenn der Leitung Emma und Felix zusammen angehören.
+zur_leitung_gehoeren(emma) ∧ zur_leitung_gehoeren(felix) → ¬zur_leitung_gehoeren(chris)
+   	
+e) Chris wird nicht mitarbeiten, wenn Felix Vorsitzender oder Berta Sekretär ist.
+vorsitzender(felix) ∨ sekretaer(berta) → ¬zur_leitung_gehoeren(chris)
+  	
+f) Detlef wird nicht mit Chris oder Emma arbeiten, wenn er dem einen oder anderen unterstellt ist.
+ist_ueber(chris,detlef) ∨ ist_ueber(emma,detlef) → ¬zur_leitung_gehoeren(detlef)
+	
+g) Emma will nicht Stellvertreter sein.
+¬stellvertreter(emma)
+
+h) Emma will nicht Sekretär sein, wenn Detlef Mitglied der Leitung ist.
+zur_leitung_gehoeren(detlef) → ¬sekretaer(emma)
+
+i) Emma will nicht zusammen mit Albert arbeiten, wenn Felix nicht der Leitung angehört.
+¬zur_leitung_gehoeren(felix) → ¬(zur_leitung_gehoeren(emma) ∧ zur_leitung_gehoeren(albert))
+
+
+j) Felix will nur mitarbeiten, wenn er oder Chris Vorsitzender wird.
+zur_leitung_gehoeren(felix) → vorsitzender(chris) ∨ vorsitzender(felix)
