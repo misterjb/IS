@@ -1,77 +1,77 @@
 :- use_module(library(clpfd)).
 :- consult('start_allocations').
 
-sudoku(Number) :-
-     sudoku(Number, Sudoku),
+sudoku(NumbeZ) :-
+     sudoku(NumbeZ, Sudoku),
      time(solveSudoku(Sudoku)).
 
 solveSudoku(Sudoku) :-
-     % check length
-	 Sudoku =
-          [[R1C1, R1C2, R1C3, R1C4, R1C5, R1C6, R1C7, R1C8, R1C9],
-           [R2C1, R2C2, R2C3, R2C4, R2C5, R2C6, R2C7, R2C8, R2C9],
-           [R3C1, R3C2, R3C3, R3C4, R3C5, R3C6, R3C7, R3C8, R3C9],
-           [R4C1, R4C2, R4C3, R4C4, R4C5, R4C6, R4C7, R4C8, R4C9],
-           [R5C1, R5C2, R5C3, R5C4, R5C5, R5C6, R5C7, R5C8, R5C9],
-           [R6C1, R6C2, R6C3, R6C4, R6C5, R6C6, R6C7, R6C8, R6C9],
-           [R7C1, R7C2, R7C3, R7C4, R7C5, R7C6, R7C7, R7C8, R7C9],
-           [R8C1, R8C2, R8C3, R8C4, R8C5, R8C6, R8C7, R8C8, R8C9],
-           [R9C1, R9C2, R9C3, R9C4, R9C5, R9C6, R9C7, R9C8, R9C9]],
+     % Länge
+     Sudoku =
+          [[Z1S1, Z1S2, Z1S3, Z1S4, Z1S5, Z1S6, Z1S7, Z1S8, Z1S9],
+           [Z2S1, Z2S2, Z2S3, Z2S4, Z2S5, Z2S6, Z2S7, Z2S8, Z2S9],
+           [Z3S1, Z3S2, Z3S3, Z3S4, Z3S5, Z3S6, Z3S7, Z3S8, Z3S9],
+           [Z4S1, Z4S2, Z4S3, Z4S4, Z4S5, Z4S6, Z4S7, Z4S8, Z4S9],
+           [Z5S1, Z5S2, Z5S3, Z5S4, Z5S5, Z5S6, Z5S7, Z5S8, Z5S9],
+           [Z6S1, Z6S2, Z6S3, Z6S4, Z6S5, Z6S6, Z6S7, Z6S8, Z6S9],
+           [Z7S1, Z7S2, Z7S3, Z7S4, Z7S5, Z7S6, Z7S7, Z7S8, Z7S9],
+           [Z8S1, Z8S2, Z8S3, Z8S4, Z8S5, Z8S6, Z8S7, Z8S8, Z8S9],
+           [Z9S1, Z9S2, Z9S3, Z9S4, Z9S5, Z9S6, Z9S7, Z9S8, Z9S9]],
 	
-     % check domain
+     % domain
      SudokuFlatted =
-          [R1C1, R1C2, R1C3, R1C4, R1C5, R1C6, R1C7, R1C8, R1C9,
-           R2C1, R2C2, R2C3, R2C4, R2C5, R2C6, R2C7, R2C8, R2C9,
-           R3C1, R3C2, R3C3, R3C4, R3C5, R3C6, R3C7, R3C8, R3C9,
-           R4C1, R4C2, R4C3, R4C4, R4C5, R4C6, R4C7, R4C8, R4C9,
-           R5C1, R5C2, R5C3, R5C4, R5C5, R5C6, R5C7, R5C8, R5C9,
-           R6C1, R6C2, R6C3, R6C4, R6C5, R6C6, R6C7, R6C8, R6C9,
-           R7C1, R7C2, R7C3, R7C4, R7C5, R7C6, R7C7, R7C8, R7C9,
-           R8C1, R8C2, R8C3, R8C4, R8C5, R8C6, R8C7, R8C8, R8C9,
-           R9C1, R9C2, R9C3, R9C4, R9C5, R9C6, R9C7, R9C8, R9C9],
+          [Z1S1, Z1S2, Z1S3, Z1S4, Z1S5, Z1S6, Z1S7, Z1S8, Z1S9,
+           Z2S1, Z2S2, Z2S3, Z2S4, Z2S5, Z2S6, Z2S7, Z2S8, Z2S9,
+           Z3S1, Z3S2, Z3S3, Z3S4, Z3S5, Z3S6, Z3S7, Z3S8, Z3S9,
+           Z4S1, Z4S2, Z4S3, Z4S4, Z4S5, Z4S6, Z4S7, Z4S8, Z4S9,
+           Z5S1, Z5S2, Z5S3, Z5S4, Z5S5, Z5S6, Z5S7, Z5S8, Z5S9,
+           Z6S1, Z6S2, Z6S3, Z6S4, Z6S5, Z6S6, Z6S7, Z6S8, Z6S9,
+           Z7S1, Z7S2, Z7S3, Z7S4, Z7S5, Z7S6, Z7S7, Z7S8, Z7S9,
+           Z8S1, Z8S2, Z8S3, Z8S4, Z8S5, Z8S6, Z8S7, Z8S8, Z8S9,
+           Z9S1, Z9S2, Z9S3, Z9S4, Z9S5, Z9S6, Z9S7, Z9S8, Z9S9],
      SudokuFlatted ins 1..9,
 
-     % check rows
-     Sudoku = [Row1, Row2, Row3, Row4, Row5, Row6, Row7, Row8, Row9],
-     all_distinct(Row1),
-     all_distinct(Row2),
-     all_distinct(Row3),
-     all_distinct(Row4),
-     all_distinct(Row5),
-     all_distinct(Row6),
-     all_distinct(Row7),
-     all_distinct(Row8),
-     all_distinct(Row9),
+     % Blöcke
+     all_distinct([Z1S1, Z1S2, Z1S3, Z2S1, Z2S2, Z2S3, Z3S1, Z3S2, Z3S3]),
+     all_distinct([Z1S4, Z1S5, Z1S6, Z2S4, Z2S5, Z2S6, Z3S4, Z3S5, Z3S6]),
+     all_distinct([Z1S7, Z1S8, Z1S9, Z2S7, Z2S8, Z2S9, Z3S7, Z3S8, Z3S9]),
+     all_distinct([Z4S1, Z4S2, Z4S3, Z5S1, Z5S2, Z5S3, Z6S1, Z6S2, Z6S3]),
+     all_distinct([Z4S4, Z4S5, Z4S6, Z5S4, Z5S5, Z5S6, Z6S4, Z6S5, Z6S6]),
+     all_distinct([Z4S7, Z4S8, Z4S9, Z5S7, Z5S8, Z5S9, Z6S7, Z6S8, Z6S9]),
+     all_distinct([Z7S1, Z7S2, Z7S3, Z8S1, Z8S2, Z8S3, Z9S1, Z9S2, Z9S3]),
+     all_distinct([Z7S4, Z7S5, Z7S6, Z8S4, Z8S5, Z8S6, Z9S4, Z9S5, Z9S6]),
+     all_distinct([Z7S7, Z7S8, Z7S9, Z8S7, Z8S8, Z8S9, Z9S7, Z9S8, Z9S9]),
+     
+     % Spalten
+     all_distinct([Z1S1, Z2S1, Z3S1, Z4S1, Z5S1, Z6S1, Z7S1, Z8S1, Z9S1]),
+     all_distinct([Z1S2, Z2S2, Z3S2, Z4S2, Z5S2, Z6S2, Z7S2, Z8S2, Z9S2]),
+     all_distinct([Z1S3, Z2S3, Z3S3, Z4S3, Z5S3, Z6S3, Z7S3, Z8S3, Z9S3]),
+     all_distinct([Z1S4, Z2S4, Z3S4, Z4S4, Z5S4, Z6S4, Z7S4, Z8S4, Z9S4]),
+     all_distinct([Z1S5, Z2S5, Z3S5, Z4S5, Z5S5, Z6S5, Z7S5, Z8S5, Z9S5]),
+     all_distinct([Z1S6, Z2S6, Z3S6, Z4S6, Z5S6, Z6S6, Z7S6, Z8S6, Z9S6]),
+     all_distinct([Z1S7, Z2S7, Z3S7, Z4S7, Z5S7, Z6S7, Z7S7, Z8S7, Z9S7]),
+     all_distinct([Z1S8, Z2S8, Z3S8, Z4S8, Z5S8, Z6S8, Z7S8, Z8S8, Z9S8]),
+     all_distinct([Z1S9, Z2S9, Z3S9, Z4S9, Z5S9, Z6S9, Z7S9, Z8S9, Z9S9]),
+     
+     % Zeilen
+     Sudoku = [Zeile1, Zeile2, Zeile3, Zeile4, Zeile5, Zeile6, Zeile7, Zeile8, Zeile9],
+     all_distinct(Zeile1),
+     all_distinct(Zeile2),
+     all_distinct(Zeile3),
+     all_distinct(Zeile4),
+     all_distinct(Zeile5),
+     all_distinct(Zeile6),
+     all_distinct(Zeile7),
+     all_distinct(Zeile8),
+     all_distinct(Zeile9),
 
-     % check cols
-     all_distinct([R1C1, R2C1, R3C1, R4C1, R5C1, R6C1, R7C1, R8C1, R9C1]),
-     all_distinct([R1C2, R2C2, R3C2, R4C2, R5C2, R6C2, R7C2, R8C2, R9C2]),
-     all_distinct([R1C3, R2C3, R3C3, R4C3, R5C3, R6C3, R7C3, R8C3, R9C3]),
-     all_distinct([R1C4, R2C4, R3C4, R4C4, R5C4, R6C4, R7C4, R8C4, R9C4]),
-     all_distinct([R1C5, R2C5, R3C5, R4C5, R5C5, R6C5, R7C5, R8C5, R9C5]),
-     all_distinct([R1C6, R2C6, R3C6, R4C6, R5C6, R6C6, R7C6, R8C6, R9C6]),
-     all_distinct([R1C7, R2C7, R3C7, R4C7, R5C7, R6C7, R7C7, R8C7, R9C7]),
-     all_distinct([R1C8, R2C8, R3C8, R4C8, R5C8, R6C8, R7C8, R8C8, R9C8]),
-     all_distinct([R1C9, R2C9, R3C9, R4C9, R5C9, R6C9, R7C9, R8C9, R9C9]),
-
-     % check blocks
-     all_distinct([R1C1, R1C2, R1C3, R2C1, R2C2, R2C3, R3C1, R3C2, R3C3]),
-     all_distinct([R1C4, R1C5, R1C6, R2C4, R2C5, R2C6, R3C4, R3C5, R3C6]),
-     all_distinct([R1C7, R1C8, R1C9, R2C7, R2C8, R2C9, R3C7, R3C8, R3C9]),
-     all_distinct([R4C1, R4C2, R4C3, R5C1, R5C2, R5C3, R6C1, R6C2, R6C3]),
-     all_distinct([R4C4, R4C5, R4C6, R5C4, R5C5, R5C6, R6C4, R6C5, R6C6]),
-     all_distinct([R4C7, R4C8, R4C9, R5C7, R5C8, R5C9, R6C7, R6C8, R6C9]),
-     all_distinct([R7C1, R7C2, R7C3, R8C1, R8C2, R8C3, R9C1, R9C2, R9C3]),
-     all_distinct([R7C4, R7C5, R7C6, R8C4, R8C5, R8C6, R9C4, R9C5, R9C6]),
-     all_distinct([R7C7, R7C8, R7C9, R8C7, R8C8, R8C9, R9C7, R9C8, R9C9]),
-
-     % print rows
-     writeln(Row1),
-     writeln(Row2),
-     writeln(Row3),
-     writeln(Row4),
-     writeln(Row5),
-     writeln(Row6),
-     writeln(Row7),
-     writeln(Row8),
-	 writeln(Row9).
+     % ausgabe Zeile
+     writeln(Zeile1),
+     writeln(Zeile2),
+     writeln(Zeile3),
+     writeln(Zeile4),
+     writeln(Zeile5),
+     writeln(Zeile6),
+     writeln(Zeile7),
+     writeln(Zeile8),
+     writeln(Zeile9).
