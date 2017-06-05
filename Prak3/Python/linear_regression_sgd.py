@@ -20,7 +20,7 @@ def sse(w, X, y):
     m, n = np.shape(X)
     result = 0
     for i in range(1, m):
-        result += (h_x(w, X[i] - y[i])) ** 2
+        result += np.add(result, np.power(np.subtract(h_x(w, X[i]),y[i]),2))
     result = result / 2
     return result
 
@@ -56,11 +56,12 @@ class LinearRegression(object):
 
         # DONE: X um Bias-Term ergänzen
         # damit sollte X die Form [n_samples, n_features + 1] bekommen
-        X = np.hstack((np.ones((np.shape(X))),X))
+        ones = np.ones(len(X))
+        X = np.column_stack((ones, X))
+        Xt = np.transpose(X)
         # DONE: Initialisierung der Gewichte (inklusive Bias-Term)
         # self.weights in der Form [n_features + 1]
-        self.weights = np.matmul((np.linalg.inv(np.transpose(X).dot(X)).
-                     dot(np.transpose(X))),y)
+        self.weights = np.array([np.random.uniform(-3, 3) for _ in range(n+1)])
 
         # Array zum Speichern des Errors für jeden SGD-Schritt
         self.cost = []
@@ -71,8 +72,8 @@ class LinearRegression(object):
 
                 # DONE: Update der Gewichte
                 for j in range(n+1):
-                    temp = y[i] - h_x(self.weights, X[i])
-                    self.weights[j] = self.weights[j] + alpha * temp * X[i][j]
+                    temp = y[i] - np.matmul(X[i,], self.weights)
+                    self.weights += alpha * (np.transpose(temp) * X[i,])
 
                 # alternativ Schleife über Parameter (n+1 durch Bias-Term)
                 # for j in range(n+1):
@@ -92,6 +93,9 @@ class LinearRegression(object):
           Array der vorhergesagten Zielvariablen in der Form [n_samples]
         """
         # DONE Berechnen der Zielvariablen über die Hypothese
-        # folgende Zeile löschen
-        X = np.hstack((np.ones((np.shape(X))), X))
-        return X.dot(self.weights)
+        einsen = np.ones(np.shape(X)[0])
+        einsen = np.reshape(einsen, (np.shape(einsen)[0], 1))
+        X = np.concatenate((einsen, X), 1)
+
+        # Formel für Hypothese bei linearer Regression (X*sigma^T)
+        return np.matmul(X, self.weights)

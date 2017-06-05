@@ -17,7 +17,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Laden des Datensatzes als Pandas DataFrame
-df = pd.read_csv("./data/immo.txt", sep=",", dtype="float64")
+df = pd.read_csv("./data/immo.txt", sep=",")
 
 # Plot der Daten
 sc = plt.scatter(df["size"], df["price"], c=df["rooms"], cmap="Reds")
@@ -29,19 +29,19 @@ plt.ylabel("Price in $USD$")
 plt.show()
 
 
-# DONE Standartisierung der Daten
+# Standartisierung der Daten
 df_norm = (df - df.mean()) / (df.max() - df.min()) + 1
 df_norm = df_norm.round(2)
 
-# DONE Trainingsdaten und Zielvariablen definieren
+# Trainingsdaten und Zielvariaben definieren
 X = np.transpose(np.vstack((df_norm.as_matrix()[:,0], df_norm.as_matrix()[:,1])))
 y = df_norm.as_matrix()[:,2]
 
-# DONE Training des Modells
+# Training des Modells
 from linear_regression_sgd import LinearRegression
 
 model = LinearRegression()
-model = model.fit(X,y, alpha=0.01, iterations=100)
+model = model.fit(X, y, alpha=0.001, iterations = 8000)
 
 
 # Plot der Error-Kurve über das Training
