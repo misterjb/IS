@@ -29,15 +29,17 @@ plt.ylabel("Price in $USD$")
 plt.show()
 
 
-# Standartisierung der Daten
-df_norm = np.array(df)
+# DONE Standartisierung der Daten
+df_norm = (df - df.mean()) / (df.max() - df.min()) + 1
+df_norm = df_norm.round(2)
 
-# Trainingsdaten und Zielvariablen definieren
-y = df_norm[:,:2]
-X = df_norm[:,2]
+# DONE Trainingsdaten und Zielvariablen definieren
+X = np.transpose(np.vstack((df_norm.as_matrix()[:,0], df_norm.as_matrix()[:,1])))
+y = df_norm.as_matrix()[:,2]
 
-# Training des Modells
+# DONE Training des Modells
 from linear_regression_sgd import LinearRegression
+
 model = LinearRegression()
 model = model.fit(X,y, alpha=0.01, iterations=100)
 
