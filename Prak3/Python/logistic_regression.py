@@ -17,16 +17,15 @@ def sigmoid(x):
   
 # DONE Hypothese h(x)
 def h_x(w,X):
-  return sigmoid(np.dot(X, np.transpose(w)))
+  return sigmoid(np.matmul(np.transpose(w),X))
   
 # DONE Cost Funktion
-def cost(w, X, y):  
-    w = np.matrix(w)
-    X = np.matrix(X)
-    y = np.matrix(y)
-    first = np.multiply(-y, np.log(sigmoid(X * w.T)))
-    second = np.multiply((1 - y), np.log(1 - sigmoid(X * w.T)))
-    return np.sum(first - second) / (len(X))
+def cost(w, X, y):
+  m, n = np.shape(X)  
+  sum = 0
+  for i in range(1,m):
+   sum = np.add(sum, y[i] * np.log(h_x(w, X[i])) + (1-y[i]) * np.log(1-h_x(w, X[i])))
+  return -sum/m
 
 class LogisticRegression(object):
     """Logistic Regression Model
@@ -60,12 +59,13 @@ class LogisticRegression(object):
 
         # DONE X um Bias-Term ergänzen
         # damit sollte X die Form [n_samples, n_features + 1] bekommen
-        X = np.hstack((np.ones((np.shape(X))),X))
+        
         # DONE Initialisierung der Gewichte (inklusive Bias-Term)
         # self.weights in der Form [n_features + 1]
-        X = (np.linalg.inv(np.transpose(X).dot(X)).
-                     dot(np.transpose(X)))
-        self.weights = X.dot(y)
+        random1 = np.random.uniform(-3,3)
+        random2 = np.random.uniform(-3,3)
+        random3 = np.random.uniform(-3,3)
+        self.weights = np.array([[random1],[random2],[random3]])
 
         # Array zum Speichern des Errors für jeden SGD-Schritt
         self.cost = []
@@ -84,12 +84,12 @@ class LogisticRegression(object):
             for i in range(m):
 
                 # DONE Update der Gewichte
-                for j in range(n+1):
-                    temp = y[i] - h_x(self.weights, X[i])
-                    self.weights[j] = self.weights[j] + alpha * temp * X[i][j]
+                    we = self.weights
+                    term = y[i] - h_x(we, X[i,])
+                    self.weights = we + np.multiply(alpha,np.transpose(np.multiply(term, np.array([X[i,]]))))
 
             # Berechne SSE des SGD-Schritts mit den aktuallisierten Gewichten
-            self.cost = self.cost + [cost_fn(self.weights, X, y)]
+            self.cost = self.cost + [cost(self.weights, X, y)]
 
         return self
 
@@ -103,5 +103,4 @@ class LogisticRegression(object):
         """
         # DONE Berechnen der Zielvariablen über die Hypothese
         # folgende Zeile löschen
-        X = np.hstack((np.ones((np.shape(X))), X))
-        return h_x(self.weights, X)
+        return sigmoid(np.dot(X, self.weights[1:]) + self.weights[0])
