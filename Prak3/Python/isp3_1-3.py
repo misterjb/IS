@@ -3,12 +3,9 @@
 
 """
 ISP 3: Lineare und logistische Regression
-
 # Aufgabe 1.3: Vorhersage von Immobilienpreisen
-
 Dieses Skript läd einen Datensatz zur Vorhersage von Immobilienpreisen
 mittels linearer Regression.
-
 """
 
 from __future__ import absolute_import
@@ -20,7 +17,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Laden des Datensatzes als Pandas DataFrame
-df = pd.read_csv("./data/immo.txt", sep=",")
+df = pd.read_csv("./data/immo.txt", sep=",", dtype="float64")
 
 # Plot der Daten
 sc = plt.scatter(df["size"], df["price"], c=df["rooms"], cmap="Reds")
@@ -32,17 +29,17 @@ plt.ylabel("Price in $USD$")
 plt.show()
 
 
-# TODO: Standartisierung der Daten
-df_norm = …
+# Standartisierung der Daten
+df_norm = np.array(df)
 
-# TODO: Trainingsdaten und Zielvariablen definieren
-X = …
-y = …
+# Trainingsdaten und Zielvariablen definieren
+y = df_norm[:,:2]
+X = df_norm[:,2]
 
-# TODO: Training des Modells
-from … import …
-
-model = …
+# Training des Modells
+from linear_regression_sgd import LinearRegression
+model = LinearRegression()
+model = model.fit(X,y, alpha=0.01, iterations=100)
 
 
 # Plot der Error-Kurve über das Training

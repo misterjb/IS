@@ -11,6 +11,19 @@ from __future__ import print_function
 
 import numpy as np
 
+# DONE Hypothese h(x)
+def h_x(w, X):
+ return np.dot(X, w)
+	
+# DONE Sum of Squared Errors (SSE)
+def sse(w, X, y):
+    m, n = np.shape(X)
+    result = 0
+    for i in range(1, m):
+        result += (h_x(w, X[i] - y[i])) ** 2
+    result = result / 2
+    return result
+
 class LinearRegression(object):
     """Linear Regression Model
 
@@ -41,31 +54,25 @@ class LinearRegression(object):
         # m Samples mit n Attributen (exclusive Bias)
         m, n = np.shape(X)
 
-        # TODO: X um Bias-Term ergänzen
+        # DONE: X um Bias-Term ergänzen
         # damit sollte X die Form [n_samples, n_features + 1] bekommen
-
-        # TODO: Initialisierung der Gewichte (inklusive Bias-Term)
+        X = np.hstack((np.ones((np.shape(X))),X))
+        # DONE: Initialisierung der Gewichte (inklusive Bias-Term)
         # self.weights in der Form [n_features + 1]
-        self.weights = …
+        self.weights = np.matmul((np.linalg.inv(np.transpose(X).dot(X)).
+                     dot(np.transpose(X))),y)
 
         # Array zum Speichern des Errors für jeden SGD-Schritt
         self.cost = []
-
-        # TODO: Hypothese h(x)
-        h_x = lambda w, X: …
-        # alternativ als Funktion: def h_x(w,X): …
-
-        # TODO: Sum of Squared Errors (SSE)
-        sse = lambda w, X, y: …
-        # alternativ als Funktion: def sse(w,X,y): …
-
         # SGD Schleife über Iterationen
         for _ in range(iterations):
             # Schleife über Datensätze
             for i in range(m):
 
-                # TODO: Update der Gewichte
-                self.weights = …
+                # DONE: Update der Gewichte
+                for j in range(n+1):
+                    temp = y[i] - h_x(self.weights, X[i])
+                    self.weights[j] = self.weights[j] + alpha * temp * X[i][j]
 
                 # alternativ Schleife über Parameter (n+1 durch Bias-Term)
                 # for j in range(n+1):
@@ -84,6 +91,7 @@ class LinearRegression(object):
         Returns:
           Array der vorhergesagten Zielvariablen in der Form [n_samples]
         """
-        # TODO: Berechnen der Zielvariablen über die Hypothese
+        # DONE Berechnen der Zielvariablen über die Hypothese
         # folgende Zeile löschen
-        raise NotImplementedError("Noch nicht implementiert!")
+        X = np.hstack((np.ones((np.shape(X))), X))
+        return X.dot(self.weights)

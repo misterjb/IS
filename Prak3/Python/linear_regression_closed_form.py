@@ -33,13 +33,13 @@ class LinearRegression(object):
         if len(np.shape(X)) < 2:
             X = np.reshape(X, (np.shape(X)[0], 1))
 
-        # TODO: X um Bias-Term ergänzen
+        # DONE: X um Bias-Term ergänzen
         # damit sollte X die Form [n_samples, n_features + 1] bekommen
-
-        # TODO: Bestimmung der Gewichte mittels abgeschlossener Lösung
+        X = np.hstack((np.ones(np.shape(X)),X))
+        # DONE: Bestimmung der Gewichte mittels abgeschlossener Lösung
         # self.weights in der Form [n_features + 1]
-        self.weights = …
-
+        self.weights = np.matmul((np.linalg.inv(np.transpose(X).dot(X)).
+                     dot(np.transpose(X))),y)
         return self
 
     def predict(self, X):
@@ -50,6 +50,7 @@ class LinearRegression(object):
         Returns:
           Array der vorhergesagten Zielvariablen in der Form [n_samples]
         """
-        # TODO: Berechnen der Zielvariablen über die Hypothese
+        # DONE: Berechnen der Zielvariablen über die Hypothese
         # folgende Zeile löschen
-        raise NotImplementedError("Noch nicht implementiert!")
+        X = np.hstack((np.ones((np.shape(X))), X))
+        return X.dot(self.weights)
