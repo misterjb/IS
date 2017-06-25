@@ -2,7 +2,7 @@
 :- begin_tests(aufgabe_2).
 
 checkEqual(SudokuName, LoesungName) :-
-     sudoku(SudokuName, Sudoku), 
+     sudoku(SudokuName, Sudoku),
      sudoku(LoesungName, Loesung),
      loeseSudoku(Sudoku),
 	 Sudoku = Loesung.
